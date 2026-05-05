@@ -1,0 +1,6 @@
+Package: AnchorSysKernelCore
+Type: Package
+Title: AnchorSysKernelCore
+Version: 0.1.0
+License: MIT
+Description: Build an R toolkit that studies kernel behavior through layout fixtures, with stable geometry snapshots and no credentials or hosted services.
