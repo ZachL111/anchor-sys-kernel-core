@@ -1,67 +1,40 @@
 # anchor-sys-kernel-core
 
-`anchor-sys-kernel-core` is a focused R codebase around build an R toolkit that studies kernel behavior through layout fixtures, with stable geometry snapshots and no credentials or hosted services. It is meant to be easy to inspect, run, and extend without a hosted service.
+`anchor-sys-kernel-core` is a R project in systems programming. Its focus is to build an R toolkit that studies kernel behavior through layout fixtures, with stable geometry snapshots and no credentials or hosted services.
 
-## Anchor Sys Kernel Core Walkthrough
+## Why This Exists
 
-I would read the project from the outside in: command, fixture, model, then roadmap. That keeps the systems programming idea grounded in files that can be checked locally.
+The point is to make a small domain rule concrete enough that a reader can change it and immediately see what broke.
 
-## Reason For The Project
+## Anchor Sys Kernel Core Review Notes
 
-This project keeps the domain idea close to the tests. That makes it useful as a reference implementation, a small experiment, or a starting point for a more specialized tool.
-
-## Where Things Live
-
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
+`stale` and `recovery` are the cases worth reading first. They show the optimistic and cautious ends of the fixture.
 
 ## Capabilities
 
-- Includes extended examples for bounds checks, including `surge` and `degraded`.
-- Documents low-level invariants tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-- Adds a repository audit script that checks structure before running the language verifier.
+- `fixtures/domain_review.csv` adds cases for allocation pressure and dirty state.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/anchor-sys-kernel-walkthrough.md` walks through the case spread.
+- The R code includes a review path for `allocation pressure` and `layout drift`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## How It Is Put Together
+## Implementation Shape
 
-The interesting part is the boundary between accepted and reviewed scenarios. Extended examples sit near that boundary so future edits can show whether the model became more permissive or more cautious. The R version keeps the model as simple functions over named lists for easy analysis use.
+The core code exposes a scoring path and the added review layer uses `signal`, `slack`, `drag`, and `confidence`. The domain terms are `allocation pressure`, `dirty state`, `guard slack`, and `layout drift`.
 
-## Getting It Running
+The added R path is deliberately direct, with fixtures doing most of the explaining.
 
-The only required setup is the local R toolchain. After cloning, stay in the repo root so fixture paths resolve correctly.
-
-## Data Notes
-
-`examples/extended_cases.csv` adds six named cases. I kept the names plain so failures are easy to read in a terminal: baseline, pressure, surge, degraded, recovery, and boundary.
-
-## Command Examples
+## Local Usage
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Verification
 
-## Check The Work
+The check exercises the source code and the review fixture. `stale` is the high score at 231; `recovery` is the low score at 118.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Roadmap
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Possible Extensions
-
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add one more systems programming fixture that focuses on a malformed or borderline input.
-
-## Tradeoffs
-
-The scoring model is simple by design. More domain-specific behavior should be added through explicit adapters or extra fixture classes rather than hidden constants.
+This remains a local project with deterministic fixtures. It does not depend on credentials, hosted services, or live data. Future work should add richer malformed inputs before widening the public API.
