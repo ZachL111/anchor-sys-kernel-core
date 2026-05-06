@@ -1,0 +1,17 @@
+{
+  "repo": "anchor-sys-kernel-core",
+  "thresholds": {
+    "signal": 4,
+    "slack": 2,
+    "confidence": 2,
+    "drag": 5,
+    "ship": 154,
+    "watch": 113
+  },
+  "terms": [
+    "allocation pressure",
+    "dirty state",
+    "guard slack",
+    "layout drift"
+  ]
+}
